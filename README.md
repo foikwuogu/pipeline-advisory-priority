@@ -1,5 +1,7 @@
 # Which ICS advisories matter to a pipeline operator?
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22822467.svg)](https://doi.org/10.5281/zenodo.22822467)
+
 **Status: Author-verified 2026-09-18.** TPEC 2027's own call for papers is
 not yet published (see `docs/PUBLISH_GUIDE.md`), so this package is not yet
 submitted anywhere. See `docs/VERIFY_CHECKLIST.md` for the full sign-off
@@ -12,7 +14,9 @@ submitted — TPEC 2027's own call for papers isn't published yet.
 > Ikwuogu, O. F. *Which ICS advisories matter to a pipeline operator?
 > Exploitation likelihood, patch availability, and compensating controls
 > across CISA advisories, 2010 to 2026.* IEEE Texas Power and Energy
-> Conference (TPEC 2027). [DOI pending]
+> Conference (TPEC 2027). [IEEE Xplore DOI pending]
+
+**Archived release:** [Zenodo v.1.0, DOI: 10.5281/zenodo.22822467](https://doi.org/10.5281/zenodo.22822467).
 
 ## What this project does
 

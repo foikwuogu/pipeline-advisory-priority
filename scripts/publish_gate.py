@@ -40,7 +40,7 @@ def scan_placeholders() -> list[str]:
         for path in (ROOT / d).rglob("*"):
             if not path.is_file():
                 continue
-            rel = str(path.relative_to(ROOT))
+            rel = path.relative_to(ROOT).as_posix()
             if rel in ALLOWLIST:
                 continue
             if path.suffix in {".png", ".jpg", ".jpeg", ".pdf", ".docx"}:
