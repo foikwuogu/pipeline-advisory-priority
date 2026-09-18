@@ -1,0 +1,34 @@
+QA report generated for pipeline-scope classification (v1), 13939 rows
+
+Sector signal (Energy/oil/pipeline substring match): 4746 of 13939 (34.05%)
+
+Pipeline tier distribution (all rows, regardless of sector signal):
+  tier2_ot_general_energy: 9536 (68.41%)
+  unmapped: 3887 (27.89%)
+  excluded: 444 (3.19%)
+  tier1_pipeline_core: 72 (0.52%)
+
+pipeline_relevant = sector_signal AND tier in {tier1, tier2}: 3734 of 13939 (26.79%)
+
+Pipeline-relevant subset: tier breakdown
+  tier2_ot_general_energy: 3692 (98.88% of relevant subset)
+  tier1_pipeline_core: 42 (1.12% of relevant subset)
+
+Pipeline-relevant subset: original ong_product_class comparison (existing 6-vendor column)
+  unmapped: 3149
+  plc: 451
+  scada: 61
+  rtu: 47
+  ong_product_line: 26
+
+Pipeline-relevant subset: exploitation & patch signals
+  known_exploited=True: 63 of 3734 (1.69%)
+  no_patch_available=True: 1 of 3734 (0.03%)
+  EPSS present: 3713 of 3734 (99.44%); mean EPSS among present = 0.0615
+
+Named spot checks (pipeline-relevant subset, tier1 only, first 5 by row order):
+  cve_id=CVE-2023-5389 | ICS-CERT_Number=ICSA-24-116-04 | Vendor=Honeywell | Product=Experion PKS, Experion LX, PlantCruise by Experion, Safety Manager, Safety Manager SC | sector=Chemical; Critical Manufacturing; Energy; Water and Wastewater Systems | known_exploited=False | no_patch_available=False
+  cve_id=CVE-2023-5390 | ICS-CERT_Number=ICSA-24-116-04 | Vendor=Honeywell | Product=Experion PKS, Experion LX, PlantCruise by Experion, Safety Manager, Safety Manager SC | sector=Chemical; Critical Manufacturing; Energy; Water and Wastewater Systems | known_exploited=False | no_patch_available=False
+  cve_id=CVE-2023-5392 | ICS-CERT_Number=ICSA-24-116-04 | Vendor=Honeywell | Product=Experion PKS, Experion LX, PlantCruise by Experion, Safety Manager, Safety Manager SC | sector=Chemical; Critical Manufacturing; Energy; Water and Wastewater Systems | known_exploited=False | no_patch_available=False
+  cve_id=CVE-2023-5393 | ICS-CERT_Number=ICSA-24-116-04 | Vendor=Honeywell | Product=Experion PKS, Experion LX, PlantCruise by Experion, Safety Manager, Safety Manager SC | sector=Chemical; Critical Manufacturing; Energy; Water and Wastewater Systems | known_exploited=False | no_patch_available=False
+  cve_id=CVE-2023-5394 | ICS-CERT_Number=ICSA-24-116-04 | Vendor=Honeywell | Product=Experion PKS, Experion LX, PlantCruise by Experion, Safety Manager, Safety Manager SC | sector=Chemical; Critical Manufacturing; Energy; Water and Wastewater Systems | known_exploited=False | no_patch_available=False

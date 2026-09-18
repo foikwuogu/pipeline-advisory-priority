@@ -1,0 +1,28 @@
+Dedup QA report
+Rows before dedup: 27944
+Rows after dedup (dropped exact re-exports across __source_file variants): 13939
+Rows dropped: 14005 (50.12%)
+
+Source-file distribution before dedup:
+__source_file
+CISA_ICS_ADV_Master.csv          13972
+CISA_ICS_ADV_2025_9_10_26.csv     2155
+CISA_ICS_ADV_2026_9_10_26.csv     1915
+CISA_ICS_ADV_2023_9_10_26.csv     1810
+CISA_ICS_ADV_2024_9_10_26.csv     1729
+ICS-CERT_ADV_2021_9_10_26.csv     1529
+ICS-CERT_ADV_2022_9_10_26.csv     1324
+ICS-CERT_ADV_2020_9_10_26.csv      734
+ICS-CERT_ADV_2018_9_10_26.csv      724
+ICS-CERT_ADV_2019_9_10_26.csv      466
+ICS-CERT_ADV_2017_9_10_26.csv      435
+ICS-CERT_ADV_2016_9_10_26.csv      261
+ICS-CERT_ADV_2015_9_10_26.csv      256
+ICS-CERT_ADV_2014_9_10_26.csv      198
+ICS-CERT_ADV_2012_9_10_26.csv      165
+ICS-CERT_ADV_2013_9_10_26.csv      146
+ICS-CERT_ADV_2011_9_10_26.csv      103
+ICS-CERT_ADV_2010_9_10_26.csv       22
+Name: count, dtype: int64
+
+Rows with no cve_id (kept as-is, not part of the dedup key issue): 58

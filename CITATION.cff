@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this reproducibility package, please cite the paper below."
+title: "Which ICS advisories matter to a pipeline operator? Exploitation likelihood, patch availability, and compensating controls across CISA advisories, 2010 to 2026"
+type: software
+authors:
+  - family-names: Ikwuogu
+    given-names: "Ogochukwu Friday"
+    orcid: "https://orcid.org/0009-0009-2222-1318"
+    affiliation: "Independent Researcher, Odessa, Texas, USA"
+license: MIT
+repository-code: "[to be filled in on GitHub publish]"
+identifiers:
+  - type: doi
+    value: "[to be filled in on Zenodo publish]"
+preferred-citation:
+  type: conference-paper
+  title: "Which ICS advisories matter to a pipeline operator? Exploitation likelihood, patch availability, and compensating controls across CISA advisories, 2010 to 2026"
+  authors:
+    - family-names: Ikwuogu
+      given-names: "Ogochukwu Friday"
+      orcid: "https://orcid.org/0009-0009-2222-1318"
+  conference:
+    name: "IEEE Texas Power and Energy Conference (TPEC 2027)"
+  location: "College Station, Texas, USA"
+  year: 2027
+  month: 2
+  doi: "[to be filled in on IEEE Xplore publication]"

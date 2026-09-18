@@ -1,0 +1,46 @@
+# ADVISORY-ROW -> TSA OUTCOME MAPPING — new for this paper, DRAFT, [VERIFY] by author.
+#
+# No ready-made crosswalk exists from an individual CVE/advisory to a TSA
+# Pipeline-2021-02 outcome group (the crosswalk-lookup project maps the
+# DIRECTIVE's outcomes to control frameworks, not to specific vulnerabilities).
+# This mapping is the author's own domain judgment connecting the two, exactly
+# analogous to the "author-mapped" flag already used in crosswalk.csv for its
+# IEC 62443 / CIS Controls v8 cells. It is deliberately simple and disclosed
+# in full rather than tuned to look more precise than it is.
+#
+# Rule:
+#   baseline_outcomes  — applied to every pipeline-relevant row. These four
+#     outcomes are foundational OT-security hygiene controls (segmentation,
+#     access control, patch/vulnerability management process, governance)
+#     that are relevant to essentially any ICS vulnerability regardless of
+#     its specific characteristics.
+#   conditional_outcomes — applied only when the row meets the stated
+#     condition, because they represent a specific response posture
+#     (active monitoring, incident response) that matters most when
+#     exploitation is actually credible, not as a blanket baseline.
+
+baseline_outcomes:
+  - TSA-1   # Network Segmentation
+  - TSA-2   # Access Control
+  - TSA-4   # Patch Management
+  - TSA-5   # Governance & Risk Management
+
+conditional_outcomes:
+  - id: TSA-3   # Continuous Monitoring
+    condition: "known_exploited == True or epss >= epss_high_threshold"
+  - id: TSA-6   # Assessment & Incident Response
+    condition: "known_exploited == True"
+
+# EPSS threshold used above. CONFIRMED by author, 2026-09-18: kept at 0.10,
+# explicitly as an author-chosen operating point, not a FIRST.org-mandated
+# cutoff. FIRST.org's own guidance (first.org/epss/using-epss) recommends
+# tuning a threshold to an organization's own vulnerability distribution
+# rather than adopting a universal number, and its cited historical
+# reference point for a CVSS-Critical-equivalent effort level (~0.04) is
+# lower than 0.10. This value is retained because it sits within the range
+# treated as a practical screening cutoff in NIST CSWP 41 "Likely Exploited
+# Vulnerabilities" (2025), which discusses 0.1 as workable for surfacing a
+# manageable set of candidate high-priority vulnerabilities. This threshold
+# affects ONLY the TSA-3/TSA-6 informational response flags — it has no
+# effect on priority_score, which uses EPSS as a continuous value.
+epss_high_threshold: 0.10

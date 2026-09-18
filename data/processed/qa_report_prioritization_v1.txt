@@ -1,0 +1,50 @@
+QA report generated for prioritization scoring (v1), 13939 total rows, 3734 pipeline-relevant rows
+
+priority_score distribution, full dataset:
+count    13939.000000
+mean         0.043753
+std          0.136752
+min          0.000000
+25%          0.002590
+50%          0.006439
+75%          0.018590
+max          1.000000
+Name: priority_score, dtype: float64
+
+priority_score distribution, pipeline-relevant subset:
+count    3734.000000
+mean        0.022249
+std         0.059860
+min         0.000000
+25%         0.001586
+50%         0.004165
+75%         0.010180
+max         0.333333
+Name: priority_score, dtype: float64
+
+Range check priority_score in [0,1]:
+  violations: 0
+
+Top 15 pipeline-relevant advisories by priority_score:
+  score=0.333 | cve_id=CVE-2021-3156 | ICSA-22-256-01 | Hitachi Energy / TXpert Hub CoreTec 4 | tier=tier2_ot_general_energy | KEV=True | EPSS=0.99969 | no_patch=False | tsa_outcomes=TSA-1,TSA-2,TSA-4,TSA-5 + response:TSA-3,TSA-6 | cpg2_reduction=0.0
+  score=0.333 | cve_id=CVE-2021-4034 | ICSA-22-270-02 | Hitachi Energy / Lumada Asset Performance Management (APM) Edge | tier=tier2_ot_general_energy | KEV=True | EPSS=0.94921 | no_patch=False | tsa_outcomes=TSA-1,TSA-2,TSA-4,TSA-5 + response:TSA-3,TSA-6 | cpg2_reduction=0.0
+  score=0.333 | cve_id=CVE-2025-14847 | ICSA-26-218-01 | ABB / ABB Ability Zenon | tier=tier2_ot_general_energy | KEV=True | EPSS=0.83218 | no_patch=False | tsa_outcomes=TSA-1,TSA-2,TSA-4,TSA-5 + response:TSA-3,TSA-6 | cpg2_reduction=0.0
+  score=0.333 | cve_id=CVE-2017-17562 | ICSA-22-090-06 | General Electric Renewable Energy / MDS iNET/iNET II/SD/TD220/TD220MAX Radios | tier=tier2_ot_general_energy | KEV=True | EPSS=0.96327 | no_patch=False | tsa_outcomes=TSA-1,TSA-2,TSA-4,TSA-5 + response:TSA-3,TSA-6 | cpg2_reduction=0.0
+  score=0.333 | cve_id=CVE-2022-0492 | ICSA-22-270-02 | Hitachi Energy / Lumada Asset Performance Management (APM) Edge | tier=tier2_ot_general_energy | KEV=True | EPSS=0.05528 | no_patch=False | tsa_outcomes=TSA-1,TSA-2,TSA-4,TSA-5 + response:TSA-3,TSA-6 | cpg2_reduction=0.0
+  score=0.333 | cve_id=CVE-2022-22965 | ICSA-22-286-05 | Hitachi Energy / Lumada Asset Performance Manager (APM) | tier=tier2_ot_general_energy | KEV=True | EPSS=0.99638 | no_patch=False | tsa_outcomes=TSA-1,TSA-2,TSA-4,TSA-5 + response:TSA-3,TSA-6 | cpg2_reduction=0.0
+  score=0.333 | cve_id=CVE-2017-6736 | ICSA-17-208-04 | Rockwell Automation / Allen-Bradley Stratix and ArmorStratix | tier=tier2_ot_general_energy | KEV=True | EPSS=0.70559 | no_patch=False | tsa_outcomes=TSA-1,TSA-2,TSA-4,TSA-5 + response:TSA-3,TSA-6 | cpg2_reduction=0.0
+  score=0.333 | cve_id=CVE-2017-6744 | ICSA-17-208-04 | Rockwell Automation / Allen-Bradley Stratix and ArmorStratix | tier=tier2_ot_general_energy | KEV=True | EPSS=0.07155 | no_patch=False | tsa_outcomes=TSA-1,TSA-2,TSA-4,TSA-5 + response:TSA-3,TSA-6 | cpg2_reduction=0.0
+  score=0.333 | cve_id=CVE-2018-0173 | ICSA-18-107-05 | Rockwell Automation / Stratix Industrial Managed Ethernet Switch | tier=tier2_ot_general_energy | KEV=True | EPSS=0.07608 | no_patch=False | tsa_outcomes=TSA-1,TSA-2,TSA-4,TSA-5 + response:TSA-3,TSA-6 | cpg2_reduction=0.0
+  score=0.333 | cve_id=CVE-2018-0172 | ICSA-18-107-05 | Rockwell Automation / Stratix Industrial Managed Ethernet Switch | tier=tier2_ot_general_energy | KEV=True | EPSS=0.0782 | no_patch=False | tsa_outcomes=TSA-1,TSA-2,TSA-4,TSA-5 + response:TSA-3,TSA-6 | cpg2_reduction=0.0
+  score=0.333 | cve_id=CVE-2018-0174 | ICSA-18-107-05 | Rockwell Automation / Stratix Industrial Managed Ethernet Switch | tier=tier2_ot_general_energy | KEV=True | EPSS=0.07608 | no_patch=False | tsa_outcomes=TSA-1,TSA-2,TSA-4,TSA-5 + response:TSA-3,TSA-6 | cpg2_reduction=0.0
+  score=0.333 | cve_id=CVE-2018-0155 | ICSA-18-107-05 | Rockwell Automation / Stratix Industrial Managed Ethernet Switch | tier=tier2_ot_general_energy | KEV=True | EPSS=0.07742 | no_patch=False | tsa_outcomes=TSA-1,TSA-2,TSA-4,TSA-5 + response:TSA-3,TSA-6 | cpg2_reduction=0.0
+  score=0.333 | cve_id=CVE-2018-0171 | ICSA-18-107-05 | Rockwell Automation / Stratix Industrial Managed Ethernet Switch | tier=tier2_ot_general_energy | KEV=True | EPSS=0.99479 | no_patch=False | tsa_outcomes=TSA-1,TSA-2,TSA-4,TSA-5 + response:TSA-3,TSA-6 | cpg2_reduction=0.0
+  score=0.333 | cve_id=CVE-2017-3881 | ICSA-17-094-03 | Rockwell Automation / Allen-Bradley Stratix and Allen-Bradley ArmorStratix | tier=tier2_ot_general_energy | KEV=True | EPSS=0.98975 | no_patch=False | tsa_outcomes=TSA-1,TSA-2,TSA-4,TSA-5 + response:TSA-3,TSA-6 | cpg2_reduction=0.0
+  score=0.333 | cve_id=CVE-2018-0167 | ICSA-18-107-05 | Rockwell Automation / Stratix Industrial Managed Ethernet Switch | tier=tier2_ot_general_energy | KEV=True | EPSS=0.03354 | no_patch=False | tsa_outcomes=TSA-1,TSA-2,TSA-4,TSA-5 + response:TSA-3,TSA-6 | cpg2_reduction=0.0
+
+Bottom 5 pipeline-relevant advisories by priority_score (best-covered / lowest urgency):
+  score=0.000 | cve_id=nan | ICSA-11-091-01A | Siemens / Tecnomatix FactoryLink | tsa_outcomes=TSA-1,TSA-2,TSA-4,TSA-5 + response: | cpg2_reduction=0.0
+  score=0.000 | cve_id=nan | ICSA-10-097-01 | ABB / netCADOPS | tsa_outcomes=TSA-1,TSA-2,TSA-4,TSA-5 + response: | cpg2_reduction=0.0
+  score=0.000 | cve_id=nan | ICSA-11-175-02 | Siemens / WinCC | tsa_outcomes=TSA-1,TSA-2,TSA-4,TSA-5 + response: | cpg2_reduction=0.0
+  score=0.000 | cve_id=nan | ICSA-11-231-01 | Inductive Automation / Ignition | tsa_outcomes=TSA-1,TSA-2,TSA-4,TSA-5 + response: | cpg2_reduction=0.0
+  score=0.000 | cve_id=nan | ICSA-11-223-01A | Siemens / SIMATIC PLCs | tsa_outcomes=TSA-1,TSA-2,TSA-4,TSA-5 + response: | cpg2_reduction=0.24

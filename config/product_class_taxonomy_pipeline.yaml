@@ -1,0 +1,108 @@
+# PIPELINE PRODUCT-CLASS TAXONOMY — new for this paper, DRAFT, [VERIFY] by author.
+#
+# Built empirically from vendor frequency counts among rows tagged Energy or
+# "oil and gas" in Critical_Infrastructure_Sector (reused ong-ot-dataset v1.1,
+# inspected 2026-09-16), cross-referenced against known pipeline SCADA/RTU/
+# flow-computer product lines. This is a NEW, more precise taxonomy than the
+# original 6-vendor ong_product_class column already in the dataset — it does
+# not replace that column, it adds a second, pipeline-specific classification
+# alongside it (see src/classify_pipeline_scope.py).
+#
+# Matching: case-insensitive substring match against the row's Vendor field
+# (tier 1/2), OR against the combined Vendor+Product text for the
+# product_keywords list (catches a pipeline-specific product line from a
+# vendor that also sells unrelated equipment).
+#
+# Confidence tiers:
+#   tier1_pipeline_core — vendor or product line specifically associated with
+#     pipeline SCADA/RTU/flow-computer/leak-detection systems in industry
+#     literature. Weight 0.9.
+#   tier2_ot_general_energy — broader industrial-automation/SCADA vendor
+#     documented as present in the Energy-sector-tagged advisory rows, plausibly
+#     deployed in pipeline OT but not pipeline-exclusive (also used in power
+#     generation, manufacturing, building automation, etc.). Weight 0.5.
+#   excluded — vendor appeared under the "Energy" sector tag but makes
+#     equipment with no plausible pipeline-OT role (solar inverters, video
+#     surveillance, biometrics, educational trainers, substation-specific
+#     protocol stacks). Not classified pipeline-relevant regardless of sector
+#     tag. Listed here for transparency, not matched.
+
+classes:
+  # tier1 is deliberately PRODUCT-LINE matching only, not vendor-level. A
+  # vendor-level match (e.g. "Siemens", "GE", "Rockwell Automation") is too
+  # broad to claim as pipeline-specific — these vendors also sell grid SCADA,
+  # building automation, and generic factory-floor gear that has nothing to
+  # do with a pipeline (the first classification run, 2026-09-16, caught this:
+  # vendor-level matching flagged Siemens "Spectrum Power 7" — an ELECTRIC
+  # GRID control product — as "pipeline_core", which is wrong). Only named
+  # pipeline SCADA/RTU/flow-computer product lines go in tier1.
+  tier1_pipeline_core:
+    weight: 0.9
+    vendors: []
+    product_keywords:
+      - Totalflow
+      - FloBoss
+      - ControlWave
+      - "ROC800"
+      - "ROC809"
+      - SCADAPack
+      - ClearSCADA
+      - "Experion"
+      - OASyS
+      - "flow computer"
+      - "gas chromatograph"
+      - "leak detection"
+
+  # tier2 is vendor-level: these vendors are documented (by direct inspection
+  # of this dataset's Energy/oil-and-gas-tagged rows, 2026-09-16) as present in
+  # energy-sector OT, and are known industry-wide to supply PLC/RTU/SCADA/HMI
+  # equipment that CAN be deployed at pipeline compressor/metering/pump
+  # stations — but the vendor sells into many other industries too, so a
+  # vendor-level match is "plausibly pipeline-relevant," not "confirmed
+  # pipeline-specific." This is the tier the author most needs to review.
+  tier2_ot_general_energy:
+    weight: 0.5
+    vendors:
+      - Emerson
+      - ABB
+      - Schneider Electric
+      - Honeywell
+      - Yokogawa
+      - Siemens
+      - GE
+      - Rockwell Automation
+      - Advantech
+      - Moxa
+      - AVEVA
+      - WAGO
+      - Omron
+      - Eaton
+      - Fuji Electric
+      - Hitachi Energy
+      - mySCADA Technologies
+      - WellinTech
+      - Inductive Automation
+      - Ecava
+      - Invensys
+      - Measuresoft
+      - 3S-Smart Software Solutions
+      - Sierra Wireless
+      - Delta Electronics
+      - B&R Industrial Automation
+
+  excluded:
+    weight: 0.0
+    vendors:
+      - Festo Didactic       # educational/training simulators, not deployed OT
+      - Growatt              # solar inverters
+      - Geutebruck           # video surveillance
+      - Johnson Controls     # building automation, not pipeline OT
+      - Anviz                # biometric access control
+      - Sungrow              # solar inverters
+      - SUBNET Solutions     # grid EMS-specific, not pipeline
+      - MZ Automation        # IEC 61850 substation protocol stack, power-grid specific
+      - Treck Inc            # generic embedded TCP/IP stack, not a pipeline product
+      - Ebyte                # generic wireless IoT modules
+      - SenseLive            # generic Modbus/IoT gateways
+
+unmapped_default_weight: 0.0
