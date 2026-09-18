@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Pipeline advisory prioritization results for CISA ICS advisories from 2010 to 2026.">
+  <title>Pipeline Advisory Priority | Results</title>
+  <style>
+    :root {
+      --ink: #17211d;
+      --muted: #5f6963;
+      --paper: #f6f3ea;
+      --panel: #fffdf8;
+      --line: #d9d5c8;
+      --orange: #d95e2b;
+      --blue: #2266a8;
+      --green: #1f6b4d;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Georgia, "Times New Roman", serif;
+      line-height: 1.5;
+    }
+
+    .wrap { width: min(1160px, calc(100% - 40px)); margin: 0 auto; }
+
+    header {
+      border-top: 8px solid var(--orange);
+      border-bottom: 1px solid var(--line);
+      padding: 52px 0 34px;
+      background: var(--panel);
+    }
+
+    .eyebrow, .label {
+      color: var(--green);
+      font-family: "Trebuchet MS", sans-serif;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1, h2 { line-height: 1.08; margin: 0; font-weight: 700; }
+    h1 { max-width: 900px; font-size: clamp(2.1rem, 5vw, 4.5rem); margin-top: 12px; }
+    h2 { font-size: clamp(1.55rem, 3vw, 2.4rem); }
+    .subtitle { max-width: 760px; margin: 19px 0 0; color: var(--muted); font-size: 1.08rem; }
+
+    main { padding: 48px 0 64px; }
+    section { margin-top: 58px; }
+    section:first-child { margin-top: 0; }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid var(--line);
+      border-left: 1px solid var(--line);
+      margin-top: 22px;
+    }
+
+    .metric { background: var(--panel); border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); min-height: 155px; padding: 20px; }
+    .metric strong { display: block; font-family: "Trebuchet MS", sans-serif; color: var(--blue); font-size: clamp(1.7rem, 3vw, 2.55rem); line-height: 1.1; margin-top: 12px; }
+    .metric span { color: var(--muted); display: block; font-size: 0.94rem; margin-top: 8px; }
+
+    .chart-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 22px; }
+    figure { margin: 0; background: var(--panel); border: 1px solid var(--line); padding: 14px; }
+    figure img { display: block; max-width: 100%; height: auto; }
+    figcaption { color: var(--muted); font-size: 0.9rem; padding: 10px 4px 0; }
+
+    .table-wrap { overflow-x: auto; margin-top: 22px; border: 1px solid var(--line); background: var(--panel); }
+    table { width: 100%; border-collapse: collapse; min-width: 780px; font-family: "Trebuchet MS", sans-serif; font-size: 0.91rem; }
+    th { background: #e8eee7; color: var(--ink); font-size: 0.74rem; letter-spacing: 0.04em; text-align: left; text-transform: uppercase; }
+    th, td { border-bottom: 1px solid var(--line); padding: 13px 14px; vertical-align: top; }
+    tbody tr:last-child td { border-bottom: 0; }
+    .score { color: var(--orange); font-weight: 700; }
+    .kev { color: var(--green); font-weight: 700; }
+    .source { color: var(--muted); max-width: 830px; }
+    a { color: var(--blue); font-family: "Trebuchet MS", sans-serif; font-weight: 700; }
+
+    footer { background: var(--ink); color: #e9e5d9; padding: 30px 0; }
+    footer p { margin: 0; font-size: 0.9rem; }
+    footer a { color: #f1b084; }
+
+    @media (max-width: 760px) {
+      .wrap { width: min(100% - 28px, 1160px); }
+      header { padding: 38px 0 30px; }
+      main { padding-top: 34px; }
+      .metrics { grid-template-columns: repeat(2, 1fr); }
+      .chart-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="eyebrow">CISA ICS advisory analysis | 2010-2026</div>
+      <h1>Which advisories matter to a pipeline operator?</h1>
+      <p class="subtitle">A transparent prioritization of CISA ICS advisories using exploitation likelihood, patch availability, and documented compensating-control coverage.</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section aria-labelledby="overview">
+      <div class="label">Dataset at a glance</div>
+      <h2 id="overview">Prioritization results</h2>
+      <div class="metrics">
+        <article class="metric"><strong>13,939</strong><span>Deduplicated advisory rows</span></article>
+        <article class="metric"><strong>3,734</strong><span>Pipeline-relevant advisories</span></article>
+        <article class="metric"><strong>63</strong><span>Pipeline-relevant KEV rows</span></article>
+        <article class="metric"><strong>99.43%</strong><span>EPSS match rate</span></article>
+      </div>
+    </section>
+
+    <section aria-labelledby="distribution">
+      <div class="label">Distribution</div>
+      <h2 id="distribution">The pipeline-relevant subset</h2>
+      <div class="chart-grid">
+        <figure>
+          <img src="figures/fig1_advisories_by_year.png" alt="Line chart comparing all advisory rows and pipeline-relevant rows by year.">
+          <figcaption>Advisory volume rose substantially after 2020; pipeline-relevant records track that expansion.</figcaption>
+        </figure>
+        <figure>
+          <img src="figures/fig2_priority_tiers.png" alt="Bar chart comparing priority-tier shares for all and pipeline-relevant rows.">
+          <figcaption>74.5% of pipeline-relevant rows are Low tier; 4.9% are Critical tier.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section aria-labelledby="top-advisories">
+      <div class="label">Immediate attention</div>
+      <h2 id="top-advisories">Top 10 prioritized advisory-CVE rows</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Priority</th><th>CVE</th><th>Advisory</th><th>Vendor / product</th><th>KEV</th><th>EPSS</th></tr></thead>
+          <tbody>
+            <tr><td class="score">0.333333</td><td>CVE-2023-44487</td><td>ICSA-24-165-04</td><td>Siemens / ST7 ScadaConnect</td><td class="kev">Yes</td><td>0.99999</td></tr>
+            <tr><td class="score">0.333333</td><td>CVE-2023-38180</td><td>ICSA-24-165-04</td><td>Siemens / ST7 ScadaConnect</td><td class="kev">Yes</td><td>0.14016</td></tr>
+            <tr><td class="score">0.333333</td><td>CVE-2025-14847</td><td>ICSA-26-218-01</td><td>ABB / ABB Ability Zenon</td><td class="kev">Yes</td><td>0.83218</td></tr>
+            <tr><td class="score">0.333333</td><td>CVE-2017-6738</td><td>ICSA-17-208-04</td><td>Rockwell Automation / Allen-Bradley Stratix and ArmorStratix</td><td class="kev">Yes</td><td>0.10654</td></tr>
+            <tr><td class="score">0.333333</td><td>CVE-2017-6736</td><td>ICSA-17-208-04</td><td>Rockwell Automation / Allen-Bradley Stratix and ArmorStratix</td><td class="kev">Yes</td><td>0.70559</td></tr>
+            <tr><td class="score">0.333333</td><td>CVE-2023-44487</td><td>ICSA-25-203-04</td><td>Schneider Electric / EcoStruxure Power Operation</td><td class="kev">Yes</td><td>0.99999</td></tr>
+            <tr><td class="score">0.333333</td><td>CVE-2023-5217</td><td>ICSA-25-203-04</td><td>Schneider Electric / EcoStruxure Power Operation</td><td class="kev">Yes</td><td>0.49013</td></tr>
+            <tr><td class="score">0.333333</td><td>CVE-2017-6743</td><td>ICSA-17-208-04</td><td>Rockwell Automation / Allen-Bradley Stratix and ArmorStratix</td><td class="kev">Yes</td><td>0.10654</td></tr>
+            <tr><td class="score">0.333333</td><td>CVE-2018-0296</td><td>ICSA-18-184-01</td><td>Rockwell Automation / Allen-Bradley Stratix 5950</td><td class="kev">Yes</td><td>0.99913</td></tr>
+            <tr><td class="score">0.333333</td><td>CVE-2017-6737</td><td>ICSA-17-208-04</td><td>Rockwell Automation / Allen-Bradley Stratix and ArmorStratix</td><td class="kev">Yes</td><td>0.44325</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section aria-labelledby="method">
+      <div class="label">Method</div>
+      <h2 id="method">Transparent scoring</h2>
+      <p class="source">Priority score = raw urgency x (1 - overall control reduction). Raw urgency combines known exploitation from CISA KEV or EPSS probability with a no-patch bonus. Control reduction stacks the documented CISA CPG 2.0 and TSA-outcome mappings. Read the <a href="README.md">project README</a> and inspect the <a href="data/processed/stats.json">complete generated statistics</a>.</p>
+    </section>
+  </main>
+
+  <footer><div class="wrap"><p>Friday Ogochukwu Ikwuogu | Independent Researcher, Odessa, Texas, USA | <a href="https://github.com/foikwuogu/pipeline-advisory-priority">Source repository</a></p></div></footer>
+</body>
+</html>
