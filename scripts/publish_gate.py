@@ -66,8 +66,21 @@ def check_reproducibility() -> list[str]:
     stats_path = ROOT / "data" / "processed" / "stats.json"
     if not stats_path.exists():
         return [f"{stats_path} does not exist"]
-    before_hash = sha256_of(stats_path)
-    before_text = stats_path.read_text()
+
+    # Every file any of these scripts writes, so a gate run — pass or fail —
+    # never leaves the working tree dirty. (Earlier versions of this script
+    # only guarded stats.json; running the gate still silently overwrote the
+    # intermediate CSVs and QA-report .txt files as a side effect. That's
+    # how a stale, non-deterministic QA report first slipped onto a
+    # second machine — see docs/LIMITATIONS.md item 13.)
+    side_effect_paths = [
+        stats_path,
+        ROOT / "data" / "processed" / "pipeline_scored_v1.csv",
+        ROOT / "data" / "processed" / "pipeline_prioritized_v1.csv",
+        ROOT / "data" / "processed" / "qa_report_pipeline_scope_v1.txt",
+        ROOT / "data" / "processed" / "qa_report_prioritization_v1.txt",
+    ]
+    before = {p: (p.read_bytes() if p.exists() else None) for p in side_effect_paths}
 
     # src/01_dedup_source.py is deliberately excluded from this automated
     # check: it reads from an upstream raw export that lives in a separate,
@@ -78,6 +91,7 @@ def check_reproducibility() -> list[str]:
     scripts = [
         "src/02_classify_pipeline_scope.py",
         "src/03_score_prioritization.py",
+        "src/04_build_stats.py",
     ]
     for s in scripts:
         result = subprocess.run(
@@ -85,18 +99,27 @@ def check_reproducibility() -> list[str]:
         )
         if result.returncode != 0:
             problems.append(f"{s} failed:\n{result.stderr[-2000:]}")
+            # Restore whatever already ran before bailing out.
+            for p, content in before.items():
+                if content is not None:
+                    p.write_bytes(content)
             return problems  # no point diffing if a script errored
 
     after_hash = sha256_of(stats_path)
+    before_hash = hashlib.sha256(before[stats_path]).hexdigest() if before[stats_path] is not None else None
     if before_hash != after_hash:
-        after_text = stats_path.read_text()
         problems.append(
             "data/processed/stats.json changed after rerunning the pipeline "
-            "scripts — the paper's numbers are not currently reproducible "
-            "from the checked-in source. Diff the two versions before publishing."
+            "scripts (02 -> 03 -> 04) — the paper's numbers are not currently "
+            "reproducible from the checked-in source. Diff the two versions "
+            "before publishing."
         )
-        # Restore the original so a failed gate run doesn't leave the repo dirty.
-        stats_path.write_text(before_text)
+
+    # Always restore every side-effect file to its pre-check content,
+    # regardless of outcome, so this check never leaves the repo dirty.
+    for p, content in before.items():
+        if content is not None:
+            p.write_bytes(content)
     return problems
 
 
@@ -139,8 +162,8 @@ def main() -> int:
     print("  - No placeholder text found.")
     print("  - docs/VERIFY_CHECKLIST.md is signed and has no blocking unchecked items.")
     print("  - data/processed/stats.json reproduces exactly from the committed")
-    print("    deduplicated CSV via src/02 and src/03 (src/01 needs an external,")
-    print("    unpublished upstream file — see README.md).")
+    print("    deduplicated CSV via src/02, src/03, and src/04 (src/01 needs an")
+    print("    external, unpublished upstream file — see README.md).")
     return 0
 
 

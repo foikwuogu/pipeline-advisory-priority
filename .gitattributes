@@ -1,0 +1,15 @@
+# Force LF line endings for all text files, regardless of OS or local
+# core.autocrlf settings. Without this, a Windows checkout gets CRLF while
+# the committed blobs are LF, and a script run on Windows (which, by
+# default, also writes new text/CSV/JSON files with CRLF) silently
+# produces byte-different output from what's committed — making every
+# `git status` show the whole repo as "modified" and making
+# scripts/publish_gate.py's reproducibility check fail on a false
+# positive. See docs/LIMITATIONS.md item 13.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.pdf binary
+*.docx binary

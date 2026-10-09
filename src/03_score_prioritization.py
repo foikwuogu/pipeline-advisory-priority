@@ -94,7 +94,11 @@ def main() -> None:
 
     df["priority_score"] = (df["raw_urgency"] * (1 - df["overall_control_reduction"])).round(6)
 
-    df.to_csv(OUT_CSV, index=False)
+    # newline="" avoids platform-dependent newline translation (Windows'
+    # default text-mode write would emit CRLF) — see docs/LIMITATIONS.md
+    # item 13.
+    with open(OUT_CSV, "w", newline="", encoding="utf-8") as f:
+        df.to_csv(f, index=False)
 
     n = len(df)
     rel = df[df["pipeline_relevant"]]
@@ -111,7 +115,17 @@ def main() -> None:
     lines.append(f"  violations: {((df['priority_score'] < 0) | (df['priority_score'] > 1)).sum()}")
     lines.append("")
     lines.append("Top 15 pipeline-relevant advisories by priority_score:")
-    top = rel.sort_values("priority_score", ascending=False).head(15)
+    # Secondary sort keys (cve_id, ICS-CERT_Number) make this deterministic.
+    # Without them, pandas' default sort does not guarantee a stable order
+    # among tied scores, and a large number of rows do tie exactly (every
+    # KEV-listed, unpatched-bonus-free pipeline-relevant row lands on the
+    # same priority_score) — see docs/LIMITATIONS.md item 13 for how this
+    # was found: the same code on a different machine produced a different
+    # "top 15" from byte-identical input data.
+    top = rel.sort_values(
+        ["priority_score", "cve_id", "ICS-CERT_Number"],
+        ascending=[False, True, True],
+    ).head(15)
     for _, r in top.iterrows():
         lines.append(
             f"  score={r['priority_score']:.3f} | cve_id={r.get('cve_id')} | "
@@ -122,7 +136,10 @@ def main() -> None:
         )
     lines.append("")
     lines.append("Bottom 5 pipeline-relevant advisories by priority_score (best-covered / lowest urgency):")
-    bottom = rel.sort_values("priority_score", ascending=True).head(5)
+    bottom = rel.sort_values(
+        ["priority_score", "cve_id", "ICS-CERT_Number"],
+        ascending=[True, True, True],
+    ).head(5)
     for _, r in bottom.iterrows():
         lines.append(
             f"  score={r['priority_score']:.3f} | cve_id={r.get('cve_id')} | "
@@ -130,7 +147,7 @@ def main() -> None:
             f"tsa_outcomes={r.get('tsa_baseline_outcomes')} + response:{r.get('tsa_response_flags')} | cpg2_reduction={r.get('cpg2_combined_risk_reduction')}"
         )
 
-    with open(QA_REPORT, "w", encoding="utf-8") as f:
+    with open(QA_REPORT, "w", newline="\n", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
 
     print("\n".join(lines))

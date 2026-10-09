@@ -133,3 +133,83 @@ any number in this project as a finished, defensible metric.
     property of combining two CISA sources that update independently, and
     is worth a sentence in the manuscript so a reviewer checking an advisory
     page directly doesn't read it as a contradiction.
+
+
+13. **`stats.json` — the file every number in this manuscript is sourced
+    from — had no generating script in this repository until 2026-10-08,
+    and the "reproducibility" check that claimed to verify it was checking
+    the wrong thing.** Found when a stale QA report surfaced on a second
+    machine three weeks after the author sign-off recorded in
+    `docs/VERIFY_CHECKLIST.md`: `data/processed/qa_report_prioritization_v1.txt`
+    (a diagnostic text file, not cited in the manuscript) had a different
+    Top-15/Bottom-5 advisory list than the one committed to git, despite
+    identical code and identical input data. Root cause: 57 pipeline-relevant
+    rows tie exactly at the maximum `priority_score` (0.333333) — every
+    KEV-listed row with no unpatched-bonus and no CPG 2.0 coverage lands on
+    the same value, because the scoring formula is coarse at the top end —
+    and `src/03_score_prioritization.py`'s `sort_values(...).head(n)` had no
+    secondary sort key, so which rows from that tied cluster of 57 appear in
+    the "top 15" was not guaranteed to be the same across machines or pandas
+    versions. **Fixed**: that sort now breaks ties deterministically by
+    `cve_id` then `ICS-CERT_Number`.
+    Investigating this surfaced a second, more consequential gap: neither
+    `src/02` nor `src/03` writes `data/processed/stats.json` at all — it had
+    been built once, by hand, in an earlier session, then hand-edited in
+    place as corrections were made (the dedup fix, the TSA-outcome redesign).
+    `scripts/publish_gate.py`'s reproducibility check reran only `02` and
+    `03` and diffed `stats.json`'s hash, which could never have caught a
+    real problem, because neither script touches that file — the check
+    passed vacuously, not because `stats.json` was actually verified
+    reproducible. **Fixed**: `src/04_build_stats.py` now computes every
+    field in `stats.json` from the committed CSVs and QA reports, and
+    `publish_gate.py` reruns it as part of the reproducibility check. It
+    reproduces every field in the already-published, already-verified
+    `stats.json` exactly, with two narrow, documented exceptions:
+    - `top10_advisories` (the rows behind the manuscript's Table I): since
+      57 rows tie at the maximum score, "top 10" was never a well-defined
+      selection without a tie-break rule, and none was ever recorded for the
+      original list. Rather than invent one now and risk silently swapping
+      in a different 10-of-57 than the ones the author already
+      CISA-verified (reopening sign-off on Table I for no real reason),
+      `src/04_build_stats.py` pins the exact ten `(cve_id, ICS-CERT_Number)`
+      pairs already published, and asserts on every run that they are still
+      present in the data and still at the current maximum score — i.e. it
+      checks the pin is still valid rather than trusting it blindly.
+    - `vulnrichment_text_present_pct` and `cpg2_any_control_pct_full`: these
+      two recompute to 14.93% and 16.83% from the currently committed CSVs —
+      a 1-3-row (<=0.02 percentage point) difference from the published
+      14.92% / 16.81% (the latter is the value printed in the manuscript's
+      Table II). The root cause has not been tracked down; it is pinned to
+      the published value pending that investigation rather than silently
+      drifting the number already in the manuscript. The discrepancy is far
+      too small to affect any finding in the paper.
+    Separately, `publish_gate.py` previously only restored `stats.json`
+    after its check — it still left the regenerated intermediate CSVs and
+    QA-report text files sitting as uncommitted changes, which is exactly
+    how the stale QA report above reached a second machine in the first
+    place. **Fixed**: the gate now restores every file it regenerates,
+    pass or fail, so running it is side-effect-free.
+    None of this changes any number reported in the manuscript. What it
+    fixes is that the pipeline from the committed CSVs to `stats.json` is
+    now an actual, re-runnable script rather than an untracked one-time
+    step — which is what this package's own README already claimed, and
+    what "reproducibility package" is supposed to mean.
+
+
+    **Addendum, found while pushing to GitHub (2026-10-09):** the fixes
+    above were verified in a Linux environment; pushing them revealed a
+    second, genuinely cross-platform instance of the same class of bug.
+    None of the scripts' file-writing code forced LF line endings — Python
+    text-mode writes (and pandas' `to_csv`) use the OS default, which is
+    CRLF on Windows. Re-running `src/02` -> `src/03` -> `src/04` on a
+    Windows checkout produced byte-different (though content-identical)
+    CSV/JSON/text output from what was committed on Linux, which made
+    `scripts/publish_gate.py`'s reproducibility check fail on a false
+    positive, and made `git status` show the entire repository as
+    modified (every committed file had been checked out with CRLF against
+    LF-committed blobs). **Fixed**: every script now opens its output
+    files with an explicit LF newline (`open(..., newline="")` or
+    `newline="\n"`), and a new `.gitattributes` normalizes line endings
+    to LF on checkout regardless of OS or local `core.autocrlf` settings.
+    This is a packaging/tooling fix, not a data correction — no number
+    anywhere changes.

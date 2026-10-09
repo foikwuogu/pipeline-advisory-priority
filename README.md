@@ -47,7 +47,7 @@ per-year snapshot files). This project deduplicates before any analysis; see
 config/     product_class_taxonomy_pipeline.yaml, tsa_outcome_mapping.yaml
 data/raw/   reused source excerpts (upstream QA/provenance, TSA crosswalk)
 data/processed/   deduplicated dataset, scored dataset, QA reports, stats.json
-src/        01_dedup_source.py, 02_classify_pipeline_scope.py, 03_score_prioritization.py
+src/        01_dedup_source.py, 02_classify_pipeline_scope.py, 03_score_prioritization.py, 04_build_stats.py
 figures/    fig1_advisories_by_year.png, fig2_priority_tiers.png
 docs/       BUILD_SPEC.md, CODEBOOK.md, LIMITATIONS.md, VERIFY_CHECKLIST.md, NEXT_STEPS.md
 manuscript/ the IEEE TPEC 2027 submission draft (.docx)
@@ -65,6 +65,7 @@ is everything downstream of deduplication:
 pip install pandas pyyaml
 python3 src/02_classify_pipeline_scope.py   # reads the committed data/processed/ong_ot_dataset_v1.1_deduped.csv
 python3 src/03_score_prioritization.py
+python3 src/04_build_stats.py               # writes data/processed/stats.json
 ```
 
 `src/01_dedup_source.py` is included for transparency — it documents exactly
@@ -72,11 +73,13 @@ how the 27,944-row upstream export was deduplicated to the 13,939-row file
 committed at `data/processed/ong_ot_dataset_v1.1_deduped.csv` (see
 `docs/LIMITATIONS.md` item 1) — but it is not runnable standalone from this
 repo alone. `scripts/publish_gate.py` checks reproducibility from the
-deduplicated CSV forward, for the same reason.
+deduplicated CSV forward (02 → 03 → 04), for the same reason.
 
 Each script writes its own QA report to `data/processed/`. Every number quoted
-in the manuscript is sourced from `data/processed/stats.json`, written by the
-scoring step.
+in the manuscript is sourced from `data/processed/stats.json`, written by
+`src/04_build_stats.py` (added 2026-10-08 — see `docs/LIMITATIONS.md` item 13
+for why that file previously had no generating script at all, and what that
+cost).
 
 ## Data sources
 

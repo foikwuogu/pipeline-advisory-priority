@@ -84,7 +84,11 @@ def main() -> None:
         ["tier1_pipeline_core", "tier2_ot_general_energy"]
     )
 
-    df.to_csv(OUT_CSV, index=False)
+    # newline="" avoids platform-dependent newline translation (Windows'
+    # default text-mode write would emit CRLF) — see docs/LIMITATIONS.md
+    # item 13.
+    with open(OUT_CSV, "w", newline="", encoding="utf-8") as f:
+        df.to_csv(f, index=False)
 
     n = len(df)
     lines = []
@@ -123,7 +127,7 @@ def main() -> None:
             f"known_exploited={r.get('known_exploited')} | no_patch_available={r.get('no_patch_available')}"
         )
 
-    with open(QA_REPORT, "w", encoding="utf-8") as f:
+    with open(QA_REPORT, "w", newline="\n", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
 
     print("\n".join(lines))

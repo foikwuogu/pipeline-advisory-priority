@@ -37,7 +37,13 @@ def main() -> None:
     deduped = df.drop_duplicates(subset=key_cols, keep="first").copy()
     n_after = len(deduped)
 
-    deduped.to_csv(OUT_CSV, index=False)
+    # newline="" on the handle + default to_csv behavior avoids Python's own
+    # text-mode newline translation, so this writes LF line endings on every
+    # OS (Windows' default text-mode write would otherwise emit CRLF,
+    # producing a byte-different-but-content-identical file — see
+    # docs/LIMITATIONS.md item 13 for how this cross-platform gap was found).
+    with open(OUT_CSV, "w", newline="", encoding="utf-8") as f:
+        deduped.to_csv(f, index=False)
 
     lines = [
         f"Dedup QA report",
@@ -50,7 +56,7 @@ def main() -> None:
         "",
         f"Rows with no cve_id (kept as-is, not part of the dedup key issue): {int(df['cve_id'].isna().sum())}",
     ]
-    with open(QA_REPORT, "w", encoding="utf-8") as f:
+    with open(QA_REPORT, "w", newline="\n", encoding="utf-8") as f:
         f.write("\n".join(lines) + "\n")
 
     print("\n".join(lines))

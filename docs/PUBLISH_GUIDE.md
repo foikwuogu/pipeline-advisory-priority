@@ -46,7 +46,53 @@ camera-ready spec, copyright-cleared, and physically presented — not
 something that attaches to a paper on submission, and not something this
 project's build process (or any automated tooling) can produce or shortcut.
 
-## What is confirmed NOT yet available (checked 2026-09-18)
+## Update — 2026-10-08: the situation has changed, and may be urgent
+
+Rechecked today. The official TAMU TPEC homepage (`tpec.engr.tamu.edu/`) now
+shows a "TPEC 2027 Begins in..." countdown, a published Call-for-Papers
+banner image, and text stating "Paper submissions for TPEC 2027 are now
+open." **However, the site is in an inconsistent, mid-transition state**:
+the "LEARN MORE & SUBMIT" and "Call For Papers" links on that homepage both
+resolve to `submissions.html` and `call-for-papers.html`, and those two
+pages still serve **TPEC 2026** content when checked directly (2026
+deadline, 2026 PDF eXpress ID `67884X`, no 2027 EasyChair link). So the
+homepage banner has been updated but the actual submission mechanics
+pages have not — there is no confirmed, working TPEC-2027-specific
+submission portal, template link, or PDF eXpress ID yet, despite the
+banner's claim.
+
+A separate, TAMU-affiliated source — `epg.engr.tamu.edu/upcoming-events/`
+(the Electric Power & Power Electronics Group's own events page, not the
+TPEC site itself) — states: **"Full paper submission deadline: Sunday,
+November 1, 2026" and explicitly calls this "FINAL and will not be
+extended."** That page also says conference dates are still "to be
+determined" (not confirmed as Feb 7–9, 2027, despite that date appearing
+elsewhere, including the target citation this project started from), lists
+the venue as the Memorial Student Center at Texas A&M University, and
+names the IEEE Industry Applications Society as this cycle's sponsor, with
+possible invited publication in *IEEE Transactions on Industry
+Applications* or *IEEE Industry Applications Magazine* for presented
+papers.
+
+**This November 1, 2026 date, if real, is about 3.5 weeks from today.**
+I was not able to independently confirm it against the TPEC site's own
+submission pages (which are still stale), and a third-party CFP aggregator
+checked the same day shows internally inconsistent deadline text of its
+own ("2026-11-01" in one spot, "To Be Announced" in another). A real CFP
+flyer image now exists on the TPEC homepage
+(`tpec.engr.tamu.edu/uploads/1/4/2/3/142355208/tpec-2027-call-for-papers-web-150dpi-2_orig.png`)
+that likely has the authoritative wording, but it's an image — the tools
+available to this project can fetch the page but cannot read text out of
+an image file at a URL. **The author should open that flyer directly in a
+browser** to get the confirmed deadline, format, and portal link, rather
+than relying on any of the secondhand sources above.
+
+**Bottom line:** treat November 1, 2026 as a real possibility that needs
+the author's own direct confirmation, not a settled fact — and given how
+little time that would leave, confirming it is now the single highest-
+priority open item in `docs/VERIFY_CHECKLIST.md`'s TPEC-2027 line.
+
+## What is confirmed NOT yet available (checked 2026-09-18, partially superseded above)
 
 - `tpec.engr.tamu.edu/submissions.html` — the conference's own official
   site — still only covers TPEC 2026; no TPEC 2027 page, deadline,
